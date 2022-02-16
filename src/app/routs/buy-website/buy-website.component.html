@@ -1,0 +1,13 @@
+<section class="hero is-fullheight is-black is-bold">
+  <section class="hero is-halfheight is-black is-bold" @landingSlideEnterFromRight>
+    <div class="hero-body">
+      <div class="container has-text-centered">
+          <mat-form-field style="width: 100%" @enterSlideFromUp *ngIf="isInput | async">
+            <input matInput placeholder="Website" #ischinp/>
+            <button mat-button matSuffix>check</button>
+          </mat-form-field>
+      </div>
+    </div>
+  </section>
+  <section class="hero is-halfheight is-black is-bold" @landingSlideEnterFromLeft></section>
+</section>

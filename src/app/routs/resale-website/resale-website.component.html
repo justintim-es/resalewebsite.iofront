@@ -1,0 +1,83 @@
+<section class="hero is-fullheight is-black is-bold">
+  <div class="is-clipped">
+    <section class="hero is-halfheight is-black is-bold" @landingSlideEnterFromRight >
+      <div class="hero-body">
+        <div class="container">
+          <button mat-icon-button routerLink="/">
+            <mat-icon class="is-size-1">chevron_left</mat-icon>
+          </button>
+        </div>
+      </div>
+    </section>
+    <section class="hero is-halfheight is-black is-bold" @landingSlideEnterFromLeft [@bottomSlide]="bottomState | async">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <nav class="level">
+            <div class="level-item has-text-centered">
+              <div>
+                <button mat-icon-button (click)="onLeft()">
+                  <mat-icon class="is-size-1">chevron_left</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="level-item has-text-centered" *ngIf="bottomBool | async">
+              <div>
+                <p class="heading">buy</p>
+              <button mat-button routerLink="/buy-website">
+                <p class="title">Website</p>
+              </button>
+              </div>
+            </div>
+            <div class="level-item has-text-centered" *ngIf="!(bottomBool | async)">
+              <div>
+                <p class="heading">import</p>
+                <p class="title">Website</p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <button mat-icon-button (click)="onRight()">
+                  <mat-icon class="is-size-1">chevron_right</mat-icon>
+                </button>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </section>
+    <section class="hero is-halfheight is-black is-bold" *ngIf="isToBottom | async" @landingSlideEnterFromLeft [@bottomSlide]="toBottomState | async">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <nav class="level">
+            <div class="level-item has-text-centered">
+              <div>
+                <button mat-icon-button (click)="onLeft()">
+                  <mat-icon class="is-size-1">chevron_left</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="level-item has-text-centered" *ngIf="!(bottomBool | async)">
+              <div>
+                <p class="heading">buy</p>
+                <p class="title">Website</p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered" *ngIf="bottomBool | async">
+              <div>
+                <p class="heading">import</p>
+                <p class="title">Website</p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <button mat-icon-button (click)="onLeft()">
+                  <mat-icon class="is-size-1">chevron_right</mat-icon>
+                </button>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>

@@ -1,0 +1,106 @@
+<section class="hero is-black is-bold is-fullheight">
+<div class="is-clipped">
+  <section class="hero is-halfheight is-black is-bold" @landingSlideEnterFromRight>
+    <div class="hero-body">
+      <div class="container">
+        <p class="title">
+          ResaleWebsite.io
+        </p>
+        <p class="subtitle">The marketplace for occupied websites</p>
+      </div>
+    </div>
+  </section>
+  <section class="hero is-halfheight is-black is-bold" [@bottomSlide]="bottomState | async" @landingSlideEnterFromLeft>
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <nav class="level">
+          <div class="level-item has-text-centered">
+            <div>
+              <button mat-icon-button (click)="onLeft()">
+                <mat-icon class="is-size-1">chevron_left</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div class="level-item has-text-centered" *ngIf="(bottomIndex | async) == -1 || (bottomIndex | async) == 2">
+            <div>
+              <p class="heading">account</p>
+              <button mat-button><p class="title">
+                Login
+              </p></button>
+            </div>
+          </div>
+          <div class="level-item has-text-centered" *ngIf="(bottomIndex | async) == 0">
+            <div>
+              <p class="heading">resale</p>
+              <button mat-button routerLink="/resale-website"><p class="title">
+                Website
+              </p></button>
+            </div>
+          </div>
+          <div class="level-item has-text-centered" *ngIf="(bottomIndex | async) == 1 || (bottomIndex | async) == -2">
+            <div>
+              <p class="heading">website</p>
+              <button mat-button><p class="title">
+                Marketplace
+              </p></button>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <button mat-icon-button (click)="onRight()">
+                <mat-icon class="is-size-1">chevron_right</mat-icon>
+              </button>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </section>
+  <section class="hero is-halfheight is-black is-bold" *ngIf="isToBottom | async" [@bottomSlide]="toBottomState | async" @landingSlideEnterFromLeft>
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <nav class="level">
+          <div class="level-item has-text-centered">
+            <div>
+              <button mat-icon-button (click)="onLeft()">
+                <mat-icon class="is-size-1">chevron_left</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div class="level-item has-text-centered" *ngIf="(toBottomIndex | async) == -1 || (toBottomIndex | async) == 2">
+            <div>
+              <p class="heading">account</p>
+              <button mat-button><p class="title">
+                Login
+              </p></button>
+            </div>
+          </div>
+          <div class="level-item has-text-centered" *ngIf="(toBottomIndex | async) == 0">
+            <div>
+              <p class="heading">resale</p>
+              <button mat-button><p class="title">
+                Website
+              </p></button>
+            </div>
+          </div>
+          <div class="level-item has-text-centered" *ngIf="(toBottomIndex | async) == 1 || (toBottomIndex | async) == -2">
+            <div>
+              <p class="heading">website</p>
+              <button mat-button><p class="title">
+                Marketplace
+              </p></button>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <button mat-icon-button (click)="onRight">
+                <mat-icon class="is-size-1">chevron_right</mat-icon>
+              </button>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </section>
+</div>
+</section>

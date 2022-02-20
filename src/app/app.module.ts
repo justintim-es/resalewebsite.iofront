@@ -20,12 +20,16 @@ import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BuyWebsiteEffectsService } from './redux/buy-website/buy-website-effects.service';
 import { buyWebsiteReducer } from './redux/buy-website/reducer';
+import { OnboardComponent } from './routs/buy-website/onboard/onboard.component';
+import { buyWebsiteOnboardReducer } from './redux/buy-website-onboard/reducer';
+import { BuyWebsiteOnboardEffectsService } from './redux/buy-website-onboard/buy-website-onboard-effects.service';
 @NgModule({
   declarations: [
     AppComponent,
     LandingComponent,
     ResaleWebsiteComponent,
-    BuyWebsiteComponent
+    BuyWebsiteComponent,
+    OnboardComponent
   ],
   imports: [
     MatFormFieldModule,
@@ -38,11 +42,13 @@ import { buyWebsiteReducer } from './redux/buy-website/reducer';
     BrowserAnimationsModule,
     StoreModule.forRoot({
       landingReducer: landingReducer,
-      buyWebsiteReducer: buyWebsiteReducer
+      buyWebsiteReducer: buyWebsiteReducer,
+      buyWebsiteOnboardReducer: buyWebsiteOnboardReducer
     }, {}),
     EffectsModule.forRoot([
       LandingEffectsService,
-      BuyWebsiteEffectsService
+      BuyWebsiteEffectsService,
+      BuyWebsiteOnboardEffectsService
     ]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],

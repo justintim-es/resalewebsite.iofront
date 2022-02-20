@@ -1,0 +1,13 @@
+<section class="hero is-fullheight is-black is-bold">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <mat-form-field style="width: 100%" @enterSlideFromUp>
+          <input matInput placeholder="E-Mail" [formControl]="emailFormControl" [errorStateMatcher]="errorStateMatcher" [(ngModel)]="email" />
+        </mat-form-field>
+        <mat-form-field style="width: 100%" @enterSlideFromDown>
+          <input matInput placeholder="Password" [formControl]="passwordFormControl" [errorStateMatcher]="errorStateMatcher" [(ngModel)]="password" />
+          <button mat-button matSuffix (click)="fetch()">onboard</button>
+        </mat-form-field>
+      </div>
+    </div>
+</section>

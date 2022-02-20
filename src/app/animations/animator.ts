@@ -1,9 +1,36 @@
 import { transition, state, style, animate, trigger } from '@angular/animations';
 
+export const leaveSlideUp = trigger('leaveSlideUp', [
+  transition(':leave', [
+    style({
+      transform: 'translateY(0)'
+    }), animate(500, style({
+      transform: 'translateY(-100%)'
+    }))
+  ])
+])
+export const leaveSlideDown  = trigger('leaveSlideDown', [
+  transition(':leave', [
+    style({
+      transform: 'translateY(0)'
+    }), animate(500, style({
+      transform: 'translateY(100%)'
+    }))
+  ])
+])
 export const enterSlideFromUp = trigger('enterSlideFromUp', [
     transition(':enter', [
       style({
         transform: 'translateY(-100%)'
+      }), animate(500, style({
+        transform: 'translateX(0)'
+      }))
+    ])
+])
+export const enterSlideFromDown = trigger('enterSlideFromDown', [
+  transition(':enter', [
+      style({
+        transform: 'translateY(100%)'
       }), animate(500, style({
         transform: 'translateX(0)'
       }))
@@ -49,7 +76,6 @@ export const bottomSlide = trigger('bottomSlide', [
     transform: 'translateX(0)',
     position: 'absolute',
     width: '100%'
-
   })),
   state('right-absolute', style({
     transform: 'translateX(100%)',

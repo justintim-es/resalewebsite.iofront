@@ -1,13 +1,157 @@
 <section class="hero is-fullheight is-black is-bold">
-  <section class="hero is-halfheight is-black is-bold" @landingSlideEnterFromRight>
-    <div class="hero-body">
-      <div class="container has-text-centered">
-          <mat-form-field style="width: 100%" @enterSlideFromUp *ngIf="isInput | async">
-            <input matInput placeholder="Website" #ischinp/>
-            <button mat-button matSuffix>check</button>
-          </mat-form-field>
+  <div class="is-clipped">
+    <section class="hero is-halfheight is-black is-bold" @landingSlideEnterFromRight [@bottomSlide]="topState | async" *ngIf="isTopCurtain | async" @leaveSlideUp  >
+      <div class="hero-body">
+        <div class="container has-text-left">
+          <button mat-icon-button routerLink="/resale-website" *ngIf="(topIndex | async) == 0" >
+            <mat-icon class="is-size-1">chevron_left</mat-icon>
+          </button>
+          <button mat-icon-button  (click)="search()" *ngIf="(topIndex | async) == 1">
+            <mat-icon class="is-size-1">search</mat-icon>
+          </button>
+          <button mat-icon-button  (click)="back()" *ngIf="(topIndex | async) == 2">
+            <mat-icon class="is-size-1">chevron_left</mat-icon>
+          </button>
+        </div>
+        <div class="container has-text-centered" *ngIf="(isCart | async) && (bottomIndex | async) != 3">
+          <button mat-icon-button  (click)="onCart()">
+            <mat-icon class="is-size-1">shopping_cart</mat-icon>
+            </button>
+        </div>
       </div>
-    </div>
-  </section>
-  <section class="hero is-halfheight is-black is-bold" @landingSlideEnterFromLeft></section>
+    </section>
+    <section class="hero is-halfheight is-black is-bold" @landingSlideEnterFromRight *ngIf="isToTop | async" [@bottomSlide]="toTopState | async">
+      <div class="hero-body">
+        <div class="container has-text-left">
+          <button mat-icon-button routerLink="/resale-website" *ngIf="(toTopIndex | async) == 0">
+            <mat-icon class="is-size-1">chevron_left</mat-icon>
+          </button>
+          <button mat-icon-button *ngIf="(toTopIndex | async) == 1">
+            <mat-icon class="is-size-1">search</mat-icon>
+          </button>
+          <div class="container has-text-centered" *ngIf="(isCart | async) && (toBottomIndex | async) != 3">
+            <button mat-icon-button >
+              <mat-icon class="is-size-1">shopping_cart</mat-icon>
+              </button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="hero is-halfheight is-black is-bold" @landingSlideEnterFromLeft [@bottomSlide]="bottomState | async" *ngIf="isBottomCurtain | async" @leaveSlideDown>
+      <div class="hero-body">
+        <div class="container has-text-centered" *ngIf="(bottomIndex | async) == 0"  >
+          <mat-form-field style="width: 100%" @enterSlideFromUp >
+            <input matInput placeholder="Website" [formControl]="websiteFormControl" [errorStateMatcher]="errorStateMatcher" [(ngModel)]="website"/>
+            <mat-error *ngIf="websiteFormControl.hasError('required')"></mat-error>
+            <button mat-button matSuffix (click)="chescheck()">check</button>
+            <button mat-icon-button matSuffix (click)="chescheck()"><mat-icon>chevron_right</mat-icon></button>
+            <div class="spinner spinner-border spinner-border-sm" matSuffix *ngIf="isCheck | async"></div>
+          </mat-form-field>
+        </div>
+        <div class="container has-text-centered" *ngIf="(bottomIndex | async) == 1">
+          <nav class="level">
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">price/year</p>
+                <p class="title">
+                  {{ '$ ' + (check | async)!.price.toFixed(2)}}
+                </p>
+            </div>
+          </div>
+              <div class="level-item has-text-centered">
+                <div>
+                <p class="heading">website</p>
+                <p class="title">
+                  {{ (check | async)!.domain }}
+                </p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered" >
+              <div>
+              <p class="heading">add</p>
+              <button mat-icon-button (click)="add()"><mat-icon class="is-size-1">shopping_cart</mat-icon></button>
+            </div>
+          </div>
+          </nav>
+        </div>
+        <div class="container has-text-centered" *ngIf="(bottomIndex | async) == 2">
+          <div class="spinner spinner-border has-text-white"></div>
+        </div>
+        <div class="container has-text-centered" *ngIf="(bottomIndex | async) == 3">
+            <table class="table">
+              <thead>
+                <th>domain</th>
+                <th>price/year</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of (cart | async)?.items">
+                <td>
+                  {{ item.domain}}
+                </td>
+                <td>
+                  {{ '$ ' + (item.price / 1000000).toFixed(2) }}
+                </td>
+                </tbody>
+              </table>
+              <button mat-raised-button color="accent" style="width: 100%" (click)="checkout()">{{
+                'onboard $ ' + ((cart | async)!.totalPrice / 1000000).toFixed(2)
+              }}</button>
+        </div>
+      </div>
+    </section>
+    <section class="hero is-halfheight is-black is-bold" @landingSlideEnterFromLeft *ngIf="isToBottom | async" [@bottomSlide]="toBottomState | async">
+      <div class="hero-body">
+        <div class="container has-text-centered" *ngIf="(toBottomIndex | async) == 1">
+          <nav class="level">
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">price/year</p>
+                <p class="title">
+                  {{ '$ ' + (check | async)!.price.toFixed(2)}}
+                </p>
+            </div>
+          </div>
+              <div class="level-item has-text-centered">
+                <div>
+                <p class="heading">website</p>
+                <p class="title">
+                  {{ (check | async)!.domain }}
+                </p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+              <p class="heading">add</p>
+              <button mat-icon-button><mat-icon class="is-size-1">shopping_cart</mat-icon></button>
+            </div>
+          </div>
+          </nav>
+        </div>
+        <div class="container has-text-centered" *ngIf="(toBottomIndex | async) == 2">
+          <div class="spinner spinner-border has-text-white"></div>
+        </div>
+        <div class="container has-text-centered" *ngIf="(toBottomIndex | async) == 3">
+            <table class="table">
+              <thead>
+                <th>domain</th>
+                <th>price/year</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of (cart | async)?.items">
+                <td>
+                  {{ item.domain}}
+                </td>
+                <td>
+                  {{ '$ ' + (item.price / 1000000).toFixed(2) }}
+                </td>
+                </tbody>
+              </table>
+              <button mat-raised-button color="accent" style="width: 100%">{{
+                'checkout $ ' + ((cart | async)!.totalPrice / 1000000).toFixed(2)
+              }}</button>
+        </div>
+      </div>
+
+    </section>
+  </div>
 </section>

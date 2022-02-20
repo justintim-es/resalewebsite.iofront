@@ -14,3 +14,17 @@ export interface IBuyWebsite {
     period: number;
     price: number;
 }
+export interface IBuyWebsiteCart {
+  id: number;
+  items: IBuyWebsiteCartItem[]
+  totalPrice: number;
+}
+export interface IBuyWebsiteCartItem {
+  id: number;
+  domain: string;
+  price: number;
+}
+export interface IBuyWebsiteOnboardFetch {
+  email: string;
+  password: string;
+}

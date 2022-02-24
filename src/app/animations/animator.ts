@@ -18,6 +18,15 @@ export const leaveSlideDown  = trigger('leaveSlideDown', [
     }))
   ])
 ])
+export const enterSlideFromLeft = trigger('enterSlideFromLeft', [
+    transition(':enter', [
+      style({
+        transform: 'translateX(-100%)'
+      }), animate(500, style({
+        transform: 'translateX(0)'
+      }))
+    ])
+])
 export const enterSlideFromUp = trigger('enterSlideFromUp', [
     transition(':enter', [
       style({

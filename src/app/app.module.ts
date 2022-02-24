@@ -23,15 +23,29 @@ import { buyWebsiteReducer } from './redux/buy-website/reducer';
 import { OnboardComponent } from './routs/buy-website/onboard/onboard.component';
 import { buyWebsiteOnboardReducer } from './redux/buy-website-onboard/reducer';
 import { BuyWebsiteOnboardEffectsService } from './redux/buy-website-onboard/buy-website-onboard-effects.service';
+import { BuyWebsiteOnboardSuccessComponent } from './routs/buy-website/onboard/buy-website-onboard-success/buy-website-onboard-success.component';
+import { LoginComponent } from './routs/login/login.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar'
+import { errorReducer } from './redux/error/reducer';
+import { ConfirmComponent } from './routs/confirm/confirm.component';
+import { MainComponent } from './routs/main/main.component'
+import { mainReducer } from './redux/main/reducer';
+import { loginReducer } from './redux/login/reducer';
+import { MainEffectsService } from './redux/main/main-effects.service';
 @NgModule({
   declarations: [
     AppComponent,
     LandingComponent,
     ResaleWebsiteComponent,
     BuyWebsiteComponent,
-    OnboardComponent
+    OnboardComponent,
+    BuyWebsiteOnboardSuccessComponent,
+    LoginComponent,
+    ConfirmComponent,
+    MainComponent
   ],
   imports: [
+    MatSnackBarModule,
     MatFormFieldModule,
     ReactiveFormsModule,
     MatInputModule,
@@ -43,12 +57,15 @@ import { BuyWebsiteOnboardEffectsService } from './redux/buy-website-onboard/buy
     StoreModule.forRoot({
       landingReducer: landingReducer,
       buyWebsiteReducer: buyWebsiteReducer,
-      buyWebsiteOnboardReducer: buyWebsiteOnboardReducer
+      buyWebsiteOnboardReducer: buyWebsiteOnboardReducer,
+      errorReducer: errorReducer,
+      mainReducer: mainReducer,
+      loginReducer: loginReducer,
     }, {}),
     EffectsModule.forRoot([
       LandingEffectsService,
       BuyWebsiteEffectsService,
-      BuyWebsiteOnboardEffectsService
+      BuyWebsiteOnboardEffectsService,
     ]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],

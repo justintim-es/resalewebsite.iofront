@@ -156,7 +156,7 @@ export class BuyWebsiteEffectsService {
     return this.actions.pipe(
       ofType(rdxBuyWebsiteCreateCart),
       withLatestFrom(this.store.select(getBuyWebsiteCheck), this.store.select(getBuyWebsiteCart)),
-      switchMap(ac => ac[2].id == 0 ? aschax.post('/carts/' + ac[1]!.domain).then(res => {
+      switchMap(ac => ac[2].id == 0 ? aschax.post('/carts', { domain: ac[1]!.domain }).then(res => {
         return {
           type: RDX_BUY_WEBSITE_CREATE_CART_SUCCESS,
           payload: res.data,
@@ -167,8 +167,8 @@ export class BuyWebsiteEffectsService {
           type: RDX_BUY_WEBSITE_CREATE_CART_ERROR,
           component: ac[0].component
         }
-      }) : aschax.put('/carts/' + ac[1]!.domain, {
-        id:  ac[2].id
+      }) : aschax.put('/carts/' + ac[2].id, {
+        domain:  ac[1]!.domain
       }).then(res => {
         return {
           type: RDX_BUY_WEBSITE_CREATE_CART_SUCCESS,

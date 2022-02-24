@@ -1,0 +1,16 @@
+<section class="hero is-fullheight is-black is-bold">
+  <div class="hero-body">
+    <div class="container">
+      <p class="title">
+        Login
+      </p>
+        <mat-form-field style="width: 100%">
+          <input matInput [formControl]="emailFormControl" [errorStateMatcher]="errorStateMatcher" placeholder="E-Mail" />
+        </mat-form-field>
+        <mat-form-field style="width: 100%">
+          <input matInput [formControl]="passwordFormControl"  [errorStateMatcher]="errorStateMatcher"  placeholder="Password"  />
+          <button (click)="login()" mat-button matSuffix>login</button>
+        </mat-form-field>
+    </div>
+  </div>
+</section>

@@ -2,12 +2,15 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Observable, SubscriptionLike } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { enterSlideFromUp, enterSlideFromDown } from  '../../../animations/animator';
+import { ActivatedRoute } from '@angular/router';
+import { enterSlideFromUp, enterSlideFromDown, leaveSlideUp, leaveSlideDown, enterSlideFromLeft } from  '../../../animations/animator';
 import { MyErrorStateMatcher } from '../../../error-state-matcher';
 import {
   RDX_BUY_WEBSITE_ONBOARD_FETCH
 } from '../../../redux/buy-website-onboard/actions';
 import {
+  getBuyWebsiteOnboardIsFetchSuccessMessage,
+  getBuyWebsiteOnboardFetchSuccessMessage,
   getBuyWebsiteOnboardIsFetch,
   getBuyWebsiteOnboardIsFetchSuccess,
   getbuyWebsiteOnboardUrl
@@ -22,7 +25,10 @@ import {
   styleUrls: ['./onboard.component.css'],
   animations: [
     enterSlideFromUp,
-    enterSlideFromDown
+    enterSlideFromDown,
+    leaveSlideUp,
+    leaveSlideDown,
+    enterSlideFromLeft
   ]
 })
 export class OnboardComponent implements OnInit, OnDestroy {
@@ -32,9 +38,15 @@ export class OnboardComponent implements OnInit, OnDestroy {
   email: string;
   password: string;
   isFetch: Observable<boolean>;
-  isFetchSuccessSub: SubscriptionLike;
+  isFetchSuccess: Observable<boolean>;
+  isFetchSuccessMessage: Observable<boolean>;
+  fetchSuccessMessage: Observable<string>;
+  // isFetchSuccessSub: SubscriptionLike;
+  activatedRouteSub: SubscriptionLike;
+  cartId: string;
   constructor(
-    private store: Store
+    private store: Store,
+    private activatedRoute: ActivatedRoute
   ) {
       this.emailFormControl = new FormControl('', [
         Validators.email,
@@ -47,12 +59,20 @@ export class OnboardComponent implements OnInit, OnDestroy {
       this.email = '';
       this.password = '';
       this.isFetch =  this.store.select(getBuyWebsiteOnboardIsFetch);
-      this.isFetchSuccessSub = this.store.select(getBuyWebsiteOnboardIsFetchSuccess).subscribe(res => {
-        if(res) {
-          this.store.select(getbuyWebsiteOnboardUrl).subscribe(res => {
-            window.location.href = res;
-          })
-        }
+      this.isFetchSuccess = this.store.select(getBuyWebsiteOnboardIsFetchSuccess);
+      this.isFetchSuccessMessage = this.store.select(getBuyWebsiteOnboardIsFetchSuccessMessage);
+      this.fetchSuccessMessage = this.store.select(getBuyWebsiteOnboardFetchSuccessMessage)
+      // this.isFetchSuccessSub = this.store.select(getBuyWebsiteOnboardIsFetchSuccess).subscribe(res => {
+      //   if(res) {
+      //     this.store.select(getbuyWebsiteOnboardUrl).subscribe(res => {
+      //       window.location.href = res;
+      //     })
+      //   }
+      // })
+
+      this.cartId = '';
+      this.activatedRouteSub = this.activatedRoute.paramMap.subscribe(res => {
+        this.cartId = res.get('id')!;
       })
 
     }
@@ -67,13 +87,14 @@ export class OnboardComponent implements OnInit, OnDestroy {
         payload: {
           email: this.email,
           password: this.password,
+          cartId: this.cartId
         },
         component: 'buy-website-onboard'
       })
     }
   }
   ngOnDestroy() {
-    this.isFetchSuccessSub.unsubscribe();
+    // this.isFetchSuccessSub.unsubscribe();
   }
 
 }

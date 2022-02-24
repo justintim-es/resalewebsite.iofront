@@ -27,4 +27,9 @@ export interface IBuyWebsiteCartItem {
 export interface IBuyWebsiteOnboardFetch {
   email: string;
   password: string;
+  cartId: string;
+}
+export interface ILoginFetch {
+  email: string;
+  password: string;
 }

@@ -39,7 +39,7 @@
     </section>
     <section class="hero is-halfheight is-black is-bold" @landingSlideEnterFromLeft [@bottomSlide]="bottomState | async" *ngIf="isBottomCurtain | async" @leaveSlideDown>
       <div class="hero-body">
-        <div class="container has-text-centered" *ngIf="(bottomIndex | async) == 0"  >
+        <div class="container has-text-centered" *ngIf="(bottomIndex | async) == 0 && (isInput | async)"  >
           <mat-form-field style="width: 100%" @enterSlideFromUp >
             <input matInput placeholder="Website" [formControl]="websiteFormControl" [errorStateMatcher]="errorStateMatcher" [(ngModel)]="website"/>
             <mat-error *ngIf="websiteFormControl.hasError('required')"></mat-error>

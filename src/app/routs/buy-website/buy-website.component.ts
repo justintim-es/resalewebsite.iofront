@@ -42,7 +42,7 @@ import {
   leaveSlideUp
 } from '../../animations/animator';
 import { MyErrorStateMatcher } from '../../error-state-matcher';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-buy-website',
   templateUrl: './buy-website.component.html',
@@ -78,11 +78,15 @@ export class BuyWebsiteComponent implements OnInit, OnDestroy {
   toTopIndex: Observable<number>;
   isTopCurtain: Observable<boolean>;
   isBottomCurtain: Observable<boolean>;
+  isCartSub: SubscriptionLike
   isRouteOnboardSub: SubscriptionLike;
+  activatedRouteSub: SubscriptionLike;
+  cartId: string;
 
   constructor(
       private store: Store,
-      private router: Router
+      private router: Router,
+      private activatedRoute: ActivatedRoute
   ) {
     this.isInput = this.store.select(getBuyWebsiteIsInput);
     this.website = '';
@@ -107,10 +111,21 @@ export class BuyWebsiteComponent implements OnInit, OnDestroy {
     this.toTopIndex = this.store.select(getBuyWebsiteToTopIndex);
     this.isTopCurtain = this.store.select(getBuyWebsiteIsTopCurtain);
     this.isBottomCurtain = this.store.select(getBuyWebsiteIsBottomCurtain);
+    this.isCartSub = this.store.select(getBuyWebsiteIsCart).subscribe(res => {
+      if(res) {
+        this.store.select(getBuyWebsiteCart).subscribe(res => {
+            this.router.navigate(['/buy-website/' + res.id]);
+        })
+      }
+    })
     this.isRouteOnboardSub = this.store.select(getBuyWebsiteIsRouteOnboard).subscribe(res => {
       if(res) {
-        this.router.navigate(['/buy-website-onboard'])
+        this.router.navigate(['/buy-website-onboard/' + this.cartId]);
       }
+    });
+    this.cartId = '';
+    this.activatedRouteSub = this.activatedRoute.paramMap.subscribe(res => {
+      this.cartId = res.get('id')!;
     })
    }
 
@@ -157,6 +172,7 @@ export class BuyWebsiteComponent implements OnInit, OnDestroy {
   checkout() {
     this.store.dispatch<IAction<any>>({
       type: RDX_BUY_WEBSITE_ONBOARD,
+      payload: this.cartId,
       component: 'buy-website'
     });
   }

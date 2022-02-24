@@ -1,13 +1,23 @@
 <section class="hero is-fullheight is-black is-bold">
     <div class="hero-body">
       <div class="container has-text-centered">
-        <mat-form-field style="width: 100%" @enterSlideFromUp>
-          <input matInput placeholder="E-Mail" [formControl]="emailFormControl" [errorStateMatcher]="errorStateMatcher" [(ngModel)]="email" />
-        </mat-form-field>
-        <mat-form-field style="width: 100%" @enterSlideFromDown>
-          <input matInput placeholder="Password" [formControl]="passwordFormControl" [errorStateMatcher]="errorStateMatcher" [(ngModel)]="password" />
-          <button mat-button matSuffix (click)="fetch()">onboard</button>
-        </mat-form-field>
+        <div class="is-clipped">
+          <mat-form-field style="width: 100%" *ngIf="!(isFetchSuccess | async)" @leaveSlideUp @enterSlideFromUp>
+            <input matInput placeholder="E-Mail" [formControl]="emailFormControl" [errorStateMatcher]="errorStateMatcher" [(ngModel)]="email" />
+          </mat-form-field>
+        </div>
+        <div class="is-clipped">
+          <mat-form-field style="width: 100%" *ngIf="!(isFetchSuccess | async)" @leaveSlideDown @enterSlideFromDown>
+            <input matInput type="password" placeholder="Password" [formControl]="passwordFormControl" [errorStateMatcher]="errorStateMatcher" [(ngModel)]="password" />
+            <button mat-button matSuffix (click)="fetch()">onboard</button>
+            <div class="spinner spinner-border spinner-border-sm" *ngIf="isFetch | async" matSuffix></div>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="container" *ngIf="isFetchSuccessMessage | async" @enterSlideFromLeft>
+        <p class="title" >
+            {{ fetchSuccessMessage | async}}
+        </p>
       </div>
     </div>
 </section>
